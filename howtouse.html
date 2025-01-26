@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CSRS2Gizmoa</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body data-bs-theme="dark">
+    <div class="container py-5">
+        <h1 class="text-center display-1">CSRS-2-Gizmoa</h1>  
+        <div class="d-flex justify-content-center align-items-center my-2">
+            <a href="./index.html"><button class="btn btn-primary">Back</button></a>
+        </div>             
+
+        <div class="border border-1 p-5 rounded">
+            <h1>Overview</h1>
+            <p>This is a tool that converts your enlisted courses from the UPMmin CSRS page to a .csmo file which can be opened in College Schedule Maker, making interpreting schedules much easier and done in a few clicks.</p>
+            <div class="alert alert-info alert-dismissible fade show text-center" role="alert">
+                DISCLAIMER: This is not an official tool that comes with the UP Mindanao Computerized Student Records System. I cannot guarantee that this converter will always work.
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>         
+
+            <hr>
+
+            <h1>Step 1: Open the Matriculation Page</h1>
+            <p>Head to the Matriculation Page of the <a href="https://student.upmin.edu.ph/index.php?go=matriculation&task=index">CSRS website.</a><br>
+            <img src="./assets/img_guide/0.png" class="w-50"><br>
+            From the main page, select <b>Registration > Matriculation</b></p>            
+            <img src="./assets/img_guide/1.png" class="w-50">
+            <p>From there, be sure to select the correct semester, year level, <b>and be sure to click on GO VIEW</b> and that your matriculation does indeed appear.</p>            
+            <img src="./assets/img_guide/2.png" class="w-25 me-5">
+            <img src="./assets/img_guide/3.png" class="w-50">
+            <p>Save the webpage.</p>    
+            
+            <hr>
+
+            <h1>Step 2: Importing the file into CSRS2Gizmoa</h1>
+            <img src="./assets/img_guide/4.png" class="w-25 border">
+            <p>Select on the Import button</p> 
+            <img src="./assets/img_guide/5.png" class="w-50">
+            <p>Select the .html file you have saved.</p> 
+            <img src="./assets/img_guide/6.png" class="w-50 border">
+            <p>It will automatically start converting for you, if no errors occur, it should be available to download.</p> 
+
+            <hr>
+
+            <h1>Step 3: Importing it into <a href="https://gizmoa.com/college-schedule-maker/">Gizmoa's College Schedule Maker</a></a></h1>
+            <img src="./assets/img_guide/7.png" class="w-10">
+            <p>Select <b>Import</b></p> 
+            <img src="./assets/img_guide/8.png" class="w-10 me-5"><img src="./assets/img_guide/9.png" class="w-50">
+            <p>Click anywhere here to open the file dialogue. Alternatively, you can drag and drop the .csmo file here.
+                <br>
+                <b>WARNING: Any previous schedule in the site will be overwritten, you will be asked to CONFIRM first before proceeding with importing. Verify that you are sure.</b>
+            </p>
+            
+            <hr>
+
+            <p>And you're done! Your CSRS schedule should now be more human-readable in this website!</p>
+            <img src="./assets/img_guide/10.png">
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
