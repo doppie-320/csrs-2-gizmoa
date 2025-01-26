@@ -9,27 +9,70 @@
 </head>
 
 <body data-bs-theme="dark">
-    <input type="file" id="file_input" style="display:none;"/>
+    <input type="file" id="file_input" style="display:none;" />
 
     <div class="container py-5">
         <h1 class="text-center display-1">CSRS-2-Gizmoa</h1>
-        <p class="text-center">Turn your CSRS schedule into a College Schedule Maker (.csmo) file for <a href="https://gizmoa.com/college-schedule-maker/">https://gizmoa.com/college-schedule-maker!</a></p>
+        <p class="text-center">Turn your CSRS schedule into a College Schedule Maker (.csmo) file for <a
+                href="https://gizmoa.com/college-schedule-maker/">https://gizmoa.com/college-schedule-maker!</a></p>
+
         <div class="alert alert-info alert-dismissible fade show text-center" role="alert">
             This website does not store any of your submitted data.
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-          </div>
+        </div>
+        <div class="alert alert-info alert-dismissible fade show text-center" role="alert">
+            DISCLAIMER: This is not an official tool that comes with the UP Mindanao Computerized Student Records System. I cannot guarantee that this converter will always work.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+
         <p class="text-center text-muted" id="status_txt">Status: Ready</p>
         <div id="error_container" class="mt-3">
-
         </div>
+
         <div class="d-flex justify-content-center gap-3">
-            <button class="btn btn-primary" id="button_import">Import .html file</button>          
+            <button class="btn btn-primary" id="button_import">Import .html file</button>
             <button class="d-none btn btn-success" id="button_download">
                 <i class="bi bi-download">Download .csmo file</i>
             </button>
-            <a href="./howtouse.html"><button class="btn btn-primary">How to use</button></a>
-        </div>        
+        </div>
     </div>
+
+    <h1 class="text-center mb-3">User Guide</h1>
+    <div class="container flex-column flex-md-row d-flex justify-content-center mb-5">
+        <div class="p-3 text-white border rounded mb-2 mx-2 w-100">
+            <h5 class="text-center mb-3">Step 1: Saving your CSRS Matriculation</h5>
+            <p>Head to the <a href="https://student.upmin.edu.ph/index.php?go=matriculation&task=index">Matriculations
+                    Page</a> in the UP Mindanao CSRS website.</p>
+            <hr>
+            <p>Ensure the correct semester and year level is displayed on the website.</p>
+            <img src="./assets/img_guide_v2/1.png" class="w-100 border border-info border-2 rounded">
+            <hr>
+            <p>Save the webpage as an <code>.html</code> file. <b>(CTRL + S)</b></p>
+            <img src="./assets/img_guide_v2/2.gif" class="w-100 border border-info border-2 rounded">
+        </div>
+        <div class="p-3 text-white border rounded mb-2 mx-2 w-100">
+            <h5 class="text-center mb-3">Step 2: Converting</h5>
+            <p>Import the <code>.html</code> file</p>
+            <img src="./assets/img_guide_v2/3.gif" class="w-100 border border-info border-2 rounded">
+            <hr>
+            <p>If no errors occur during import, the <code>.csmo</code> file will be ready to download.</p>
+        </div>
+        <div class="p-3 text-white border rounded mb-2 mx-2 w-100">
+            <h5 class="text-center mb-3">Step 3: Viewing the schedule</h5>
+            <p>Head to Gizmoa's <a href="https://gizmoa.com/college-schedule-maker/">Free College Schedule Maker</a></p>
+            <hr>
+            <p>Import the <code>.csmo</code> file.</a></p>
+            <img src="./assets/img_guide_v2/4.gif" class="w-100 border border-info border-2 rounded">
+            <hr>
+            <p>Your schedule is now converted. 🥳</p>
+            <img src="./assets/img_guide_v2/5.png" class="w-100 border border-info border-2 rounded">
+        </div>
+    </div>
+
+    <footer class="text-center py-3 text-muted">
+        <p>&copy; 2025 Anthony Moran. <a href="https://opensource.org/licenses/MIT" target="_blank"
+                rel="noopener noreferrer">MIT License</a></p>
+    </footer>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
