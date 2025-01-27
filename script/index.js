@@ -104,9 +104,9 @@ function processFile(file) {
                         var endTimeMinutes = time.split('-')[1].split(' ')[0].split(':')[1];
                         var endTimeMeridian = time.split('-')[1].split(' ')[1];
     
-                        startTimeHour = (startTimeMeridian.toLowerCase() === "pm") ? parseInt(startTimeHour) + 12 : parseInt(startTimeHour);                    
+                        startTimeHour = (startTimeMeridian.toLowerCase() === "pm") && parseInt(startTimeHour) < 12 ? parseInt(startTimeHour) + 12 : parseInt(startTimeHour);                    
                         startTimeMinutes = parseInt(startTimeMinutes);
-                        endTimeHour = (endTimeMeridian.toLowerCase() === "pm") ? parseInt(endTimeHour) + 12 : parseInt(endTimeHour);     
+                        endTimeHour = (endTimeMeridian.toLowerCase() === "pm") && parseInt(endTimeHour) < 12 ? parseInt(endTimeHour) + 12 : parseInt(endTimeHour);     
                         endTimeMinutes = parseInt(endTimeMinutes);
 
                         room = room === "0" ? "TBA" : room;

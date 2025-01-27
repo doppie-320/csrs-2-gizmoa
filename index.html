@@ -21,7 +21,8 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
         <div class="alert alert-info alert-dismissible fade show text-center" role="alert">
-            DISCLAIMER: This is not an official tool that comes with the UP Mindanao Computerized Student Records System. I cannot guarantee that this converter will always work.
+            DISCLAIMER: This is not an official tool that comes with the UP Mindanao Computerized Student Records
+            System. I cannot guarantee that this converter will always work.
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
 
@@ -38,7 +39,7 @@
     </div>
 
     <h1 class="text-center mb-3">User Guide</h1>
-    <div class="container flex-column flex-md-row d-flex justify-content-center mb-5">
+    <div class="container flex-column flex-md-row d-flex justify-content-center">
         <div class="p-3 text-white border rounded mb-2 mx-2 w-100">
             <h5 class="text-center mb-3">Step 1: Saving your CSRS Matriculation</h5>
             <p>Head to the <a href="https://student.upmin.edu.ph/index.php?go=matriculation&task=index">Matriculations
@@ -69,8 +70,41 @@
         </div>
     </div>
 
-    <footer class="text-center py-3 text-muted">
-        <p>&copy; 2025 Anthony Moran. <a href="https://opensource.org/licenses/MIT" target="_blank"
+    <footer class="text-center py-4 text-muted">
+        <p class="my-0">Changelog</p>
+        <div class="d-flex justify-content-center my-3">
+            <div class="accordion w-75" id="changelogAccordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="changelogHeading">
+                        <button class="accordion-button collapsed text-start" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#changelogCollapse" aria-expanded="false" aria-controls="changelogCollapse">
+                            <strong>v1.03 (January 27, 2025)</strong>&nbsp;- Fixed an issue where any time afternoon before 1pm would be
+                            interpreted
+                            as midnight. (Thank you Ate Jomi!)
+                            <br>
+                            &nbsp;- Also added this cute changelog section.
+                        </button>
+                    </h2>
+                    <div id="changelogCollapse" class="accordion-collapse collapse" aria-labelledby="changelogHeading"
+                        data-bs-parent="#changelogAccordion">
+                        <div class="accordion-body text-start">
+                            <ul class="list-unstyled mb-0 text-left">
+
+                                <li><strong>v1.01 (January 26, 2025)</strong> - Completely redid the User Guide (previous one was
+                                    horrendous sorry)</li>
+
+                                <hr>
+
+                                <li><strong>v1.00 (January 26, 2025)</strong> - Initial release</li>
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <p class="my-0">&copy; 2025 Anthony Moran. <a href="https://opensource.org/licenses/MIT" target="_blank"
                 rel="noopener noreferrer">MIT License</a></p>
     </footer>
 
