@@ -69,144 +69,33 @@ function processFile(file) {
 
             var tempDiv = $('<div>').html(htmlContent);
             
-            //Finding the table
-            var mainTable = tempDiv.find("#content #resultList .list");            
-    
-            if(mainTable.length >= 1) {            
-                //If the table exists
+            var tableFound = false;
+
+            //Find from matriculation page
+            var mainTable = tempDiv.find("#content #resultList .list");             
+            if(mainTable.length >= 1) {         
+                tableFound = true;                   
                 var rows = $(mainTable[0]).children().children();
                 
-                var jsonOfSubjects = "";
-                colorIndex = 0;
+                scrapeHTML_matriculation(rows, dlButton);    
+            }
 
-                console.log($(rows));
-    
-                //Foreach row (subject), skipping the first one
-                for(var i = 1; i < rows.length; i++) {
-                    var currentRow = rows[i];                
-    
-                    //Go through the columns
-                    var entries = $(currentRow).children();                    
-                    
-                    var variations = $(entries[3]).find("br").length + 1;                                
-                    for(var j = 0; j < variations; j++) {
-                        var subjectName = $(entries[0]).text().trim();
-                        var section = $(entries[3]).html().split("<br>")[j].trim();     
-                        var day = $(entries[4]).html().split("<br>")[j].trim();     
-                        var time = $(entries[5]).html().split("<br>")[j].trim(); 
-                        var room = $(entries[6]).html().split("<br>")[j].trim();
-                        var facu = $(entries[7]).text().trim();
-    
-                        var startTimeHour = time.split('-')[0].split(' ')[0].split(':')[0];
-                        var startTimeMinutes = time.split('-')[0].split(' ')[0].split(':')[1];
-                        var startTimeMeridian = time.split('-')[0].split(' ')[1];
-                        var endTimeHour = time.split('-')[1].split(' ')[0].split(':')[0];
-                        var endTimeMinutes = time.split('-')[1].split(' ')[0].split(':')[1];
-                        var endTimeMeridian = time.split('-')[1].split(' ')[1];
-    
-                        startTimeHour = (startTimeMeridian.toLowerCase() === "pm") && parseInt(startTimeHour) < 12 ? parseInt(startTimeHour) + 12 : parseInt(startTimeHour);                    
-                        startTimeMinutes = parseInt(startTimeMinutes);
-                        endTimeHour = (endTimeMeridian.toLowerCase() === "pm") && parseInt(endTimeHour) < 12 ? parseInt(endTimeHour) + 12 : parseInt(endTimeHour);     
-                        endTimeMinutes = parseInt(endTimeMinutes);
+            //Find from
+            mainTable = tempDiv.find("#content .printSection > div");
+            if(mainTable.length >= 1) {
+                tableFound = true;
+                
+                var rows = mainTable.find('table:nth-of-type(2) tbody > tr:nth-of-type(4) > td:first-child table tbody > tr');
 
-                        room = room === "0" ? "TBA" : room;
-    
-                        //0=MON-5=SAT
-                        var onDays = [false, false, false, false, false, false];
-    
-                        const dayMapping = {
-                            "M": 0,
-                            "T": 1,
-                            "W": 2,
-                            "Th": 3,
-                            "F": 4,
-                            "S": 5
-                        };
-                        
-                        while(day.length > 0) {
-                            if(day.startsWith("Th")) {
-                                onDays[dayMapping["Th"]] = true;
-                                day = day.slice(2);
-                            } else {
-                                const char = day[0];                            
-                                if(char in dayMapping) {                                
-                                    onDays[dayMapping[char]] = true;
-                                }
-                                day = day.slice(1);                            
-                            }
-                        }
-    
-                        var json = 
-                        `
-                            {
-                                "uid": "${dataCheck}",
-                                "type": "Course",
-                                "title": "${subjectName} (${section})",                        
-                                "meetingTimes": [
-                                    {
-                                        "uid": "${anyUID}",
-                                        "courseType": "",
-                                        "instructor": "${facu}",
-                                        "location": "${room}",
-                                        "startHour": ${startTimeHour},
-                                        "endHour": ${endTimeHour},
-                                        "startMinute": ${startTimeMinutes},
-                                        "endMinute": ${endTimeMinutes},
-                                        "days": {
-                                            "monday": ${onDays[0]},
-                                            "tuesday":  ${onDays[1]},
-                                            "wednesday":  ${onDays[2]},
-                                            "thursday":  ${onDays[3]},
-                                            "friday":  ${onDays[4]},
-                                            "saturday":  ${onDays[5]},
-                                            "sunday":  false
-                                        }
-                                    }
-                                ],
-                                "backgroundColor": "${getColor()}"
-                            },
-                        `;
-    
-                        jsonOfSubjects += json;
-                    }
-                }
-    
-                var lastCommaIdx = jsonOfSubjects.lastIndexOf(",");
-                var finalJson = 
-                `
-                {
-                    "dataCheck": "69761aa6-de4c-4013-b455-eb2a91fb2b76",
-                    "saveVersion": 4,
-                    "schedules": [
-                        {
-                            "title": "",
-                            "items": [${
-                                jsonOfSubjects.slice(0, lastCommaIdx) + jsonOfSubjects.slice(lastCommaIdx + 1)
-                            }]
-                        }
-                    ],
-                    "currentSchedule": 0
-                }
-                `;
-    
-                $("#status_txt").text("Status: Done!");
-                if(dlButton.hasClass("d-none")) {
-                    dlButton.removeClass("d-none");
-                }
-    
-                dlButton.click(function() {
-                    var blob = new Blob([finalJson], {type: 'text/plain'});
-    
-                    var link = document.createElement('a');
-                    link.href = URL.createObjectURL(blob);
-                    link.download = 'csrs2gizmoa.csmo';
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
-                });
-    
-            } else {
-                showErrorMessage("There was an error reading your .html file! (Cannot find element from selector \"#resultList .list\")");
+                // scrapeHTML_form5(rows);
+
+                showErrorMessage("This website does not yet support reading from the FORM 5 print display of the Registrations Page!");
+                $("#status_txt").text("Status: Failed!");
+                return;
+            }
+
+            if (!tableFound) {
+                showErrorMessage("There was an error reading your .html file! Please ensure your HTML file was properly saved.");
                 $("#status_txt").text("Status: Failed!");
                 return;
             }
@@ -217,6 +106,155 @@ function processFile(file) {
     }
 
     reader.readAsText(file);   
+}
+
+function scrapeHTML_matriculation(rows, dlButton) {
+    var jsonOfSubjects = "";
+    colorIndex = 0;
+
+    //Foreach row (subject), skipping the first one
+    for(var i = 1; i < rows.length; i++) {
+        var currentRow = rows[i];                
+
+        //Go through the columns
+        var entries = $(currentRow).children();                    
+        
+        var variations = $(entries[3]).find("br").length + 1;                                
+        for(var j = 0; j < variations; j++) {
+            var subjectName = $(entries[0]).text().trim();
+            var section = $(entries[3]).html().split("<br>")[j].trim();     
+            var day = $(entries[4]).html().split("<br>")[j].trim();     
+            var time = $(entries[5]).html().split("<br>")[j].trim(); 
+            var room = $(entries[6]).html().split("<br>")[j].trim();
+            var facu = $(entries[7]).text().trim();
+
+            var startTimeHour = time.split('-')[0].split(' ')[0].split(':')[0];
+            var startTimeMinutes = time.split('-')[0].split(' ')[0].split(':')[1];
+            var startTimeMeridian = time.split('-')[0].split(' ')[1];
+            var endTimeHour = time.split('-')[1].split(' ')[0].split(':')[0];
+            var endTimeMinutes = time.split('-')[1].split(' ')[0].split(':')[1];
+            var endTimeMeridian = time.split('-')[1].split(' ')[1];
+
+            startTimeHour = (startTimeMeridian.toLowerCase() === "pm") && parseInt(startTimeHour) < 12 ? parseInt(startTimeHour) + 12 : parseInt(startTimeHour);                    
+            startTimeMinutes = parseInt(startTimeMinutes);
+            endTimeHour = (endTimeMeridian.toLowerCase() === "pm") && parseInt(endTimeHour) < 12 ? parseInt(endTimeHour) + 12 : parseInt(endTimeHour);     
+            endTimeMinutes = parseInt(endTimeMinutes);
+
+            room = room === "0" ? "TBA" : room;
+
+            //0=MON-5=SAT
+            var onDays = [false, false, false, false, false, false];
+
+            const dayMapping = {
+                "M": 0,
+                "T": 1,
+                "W": 2,
+                "Th": 3,
+                "F": 4,
+                "S": 5
+            };
+            
+            while(day.length > 0) {
+                if(day.startsWith("Th")) {
+                    onDays[dayMapping["Th"]] = true;
+                    day = day.slice(2);
+                } else {
+                    const char = day[0];                            
+                    if(char in dayMapping) {                                
+                        onDays[dayMapping[char]] = true;
+                    }
+                    day = day.slice(1);                            
+                }
+            }
+
+            var json = 
+            `
+                {
+                    "uid": "${dataCheck}",
+                    "type": "Course",
+                    "title": "${subjectName} (${section})",                        
+                    "meetingTimes": [
+                        {
+                            "uid": "${anyUID}",
+                            "courseType": "",
+                            "instructor": "${facu}",
+                            "location": "${room}",
+                            "startHour": ${startTimeHour},
+                            "endHour": ${endTimeHour},
+                            "startMinute": ${startTimeMinutes},
+                            "endMinute": ${endTimeMinutes},
+                            "days": {
+                                "monday": ${onDays[0]},
+                                "tuesday":  ${onDays[1]},
+                                "wednesday":  ${onDays[2]},
+                                "thursday":  ${onDays[3]},
+                                "friday":  ${onDays[4]},
+                                "saturday":  ${onDays[5]},
+                                "sunday":  false
+                            }
+                        }
+                    ],
+                    "backgroundColor": "${getColor()}"
+                },
+            `;
+
+            jsonOfSubjects += json;
+        }
+    }
+
+    var lastCommaIdx = jsonOfSubjects.lastIndexOf(",");
+    var finalJson = 
+    `
+    {
+        "dataCheck": "69761aa6-de4c-4013-b455-eb2a91fb2b76",
+        "saveVersion": 4,
+        "schedules": [
+            {
+                "title": "",
+                "items": [${
+                    jsonOfSubjects.slice(0, lastCommaIdx) + jsonOfSubjects.slice(lastCommaIdx + 1)
+                }]
+            }
+        ],
+        "currentSchedule": 0
+    }
+    `;
+
+    $("#status_txt").text("Status: Done!");
+    if(dlButton.hasClass("d-none")) {
+        dlButton.removeClass("d-none");
+    }
+
+    dlButton.click(function() {
+        var blob = new Blob([finalJson], {type: 'text/plain'});
+
+        var link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'csrs2gizmoa.csmo';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    });
+}
+
+function scrapeHTML_form5(rows, dlButton) {
+    var jsonOfSubjects = "";
+    colorIndex = 0;
+
+    for(var i = 1; i < rows.length; i++) {
+        var currentRow = rows[i];
+
+        var entries = $(currentRow).children();
+
+        var variations = $(entries[1]).find("br").length + 1;
+        for(var j = 0; j < variations; j++) {
+            var subjectName = $(entries[1]).html().split("<br>")[j].trim();
+            var section = $(entries[2]).html().split("<br>")[j].trim();   
+            var section = $(entries[4]).html().split("<br>")[j].trim();   
+
+            console.log(subjectName);
+        }
+    }
 }
 
 function showErrorMessage(msg) {
